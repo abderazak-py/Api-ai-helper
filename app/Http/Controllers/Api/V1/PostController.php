@@ -14,12 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'message' => 'Posts retrieved successfully',
-            'data' => [
-                PostResource::collection(Post::with('author')->paginate()),
-            ],
-        ]);
+        $user = request()->user();
+        $posts = $user->posts()->paginate();
+
+        return PostResource::collection($posts);
     }
 
     /**
@@ -29,7 +27,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $data['author_id'] = 1;
+        $data['author_id'] = $request->user()->id;
 
         $post = Post::create($data);
 
@@ -41,6 +39,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        abort_if(request()->user()->id != $post->author_id, 403, 'Access denied.');
+
         return new PostResource($post);
     }
 
