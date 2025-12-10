@@ -8,7 +8,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AuthenticatedSessionController extends Controller
+class LoginController extends Controller
 {
     /**
      * Handle an incoming authentication request.
