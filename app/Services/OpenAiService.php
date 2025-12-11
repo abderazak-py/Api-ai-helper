@@ -39,7 +39,26 @@ class OpenAiService
 
             return $response->choices[0]->message->content;
         } catch (\Exception $e) {
-            // Option A: throw custom exception for the controller
+            throw new \RuntimeException('error generating prompt from image: '.$e->getMessage());
+        }
+    }
+
+    public function answerQuestion(string $question): string
+    {
+        $client = (new Factory)->withApiKey(config('services.openai.key'))->withBaseUri('http://127.0.0.1:1337/v1')->make();
+        try {
+            $response = $client->chat()->create([
+                'model' => 'OpenGVLab_InternVL3_5-1B-IQ2_M',
+                'messages' => [
+                    [
+                        'role' => 'user',
+                        'content' => $question,
+                    ],
+                ],
+            ]);
+
+            return $response->choices[0]->message->content;
+        } catch (\Exception $e) {
             throw new \RuntimeException('error generating prompt from image: '.$e->getMessage());
         }
     }

@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ImageGeneration::class);
     }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class, 'questioner');
+    }
 }

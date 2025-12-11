@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-
             $table->string('image_path');
             $table->text('generated_prompt');
             $table->string('original_file_name');

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PromptGenerationResource extends JsonResource
+class AnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,11 @@ class PromptGenerationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'image_path' => $this->image_path,
-            'generated_prompt' => $this->generated_prompt,
-            'original_filename' => $this->original_file_name,
-            'image_size' => $this->image_size,
-            'mime_type' => $this->mime_type,
+            'question' => $this->question,
+            'answer' => $this->answer,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
-
+            'questioner' => new UserResource($this->whenLoaded('questioner')),
         ];
     }
 }
