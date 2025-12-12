@@ -14,6 +14,7 @@ class GeneratePromptRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => ['string', 'nullable', 'max:255', 'min:3', 'regex:/^[^<>%$#&*]+$/'],
             'image' => [
                 'required',
                 'file',
@@ -36,6 +37,10 @@ class GeneratePromptRequest extends FormRequest
             'image.max' => 'The image size must not exceed 5MB.',
             'image.min' => 'The image size must be at least 1 Kbytes.',
             'image.dimensions' => 'The image dimensions must be between 100x100 and 3000x3000 pixels.',
+            'type.string' => 'Type must be a string',
+            'type.max' => 'Type must be less than 255 characters',
+            'type.min' => 'Type must be more than 3 characters',
+            'type.regex' => 'Type must not contain special characters',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GeneratePromptRequest;
 use App\Http\Resources\PromptGenerationResource;
 use App\Services\OpenAiService;
+use App\Services\GeminiService;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -98,8 +99,13 @@ class PromptGenearationController extends Controller
         $safeFileName = $sanitizedFileName . '_' . Str::random(10) . '.' . $extension;
         $imagePath = $image->storeAs('images', $safeFileName, 'public');
 
-        $generatedPrompt = $this->openAiService->generatedPromptFromImage($image);
-        //$generatedPrompt = $this->geminiService->generatedPromptFromImage($image);
+        if ($request->has('type') && $request->type === 'local') {
+            $generatedPrompt = $this->openAiService->generatedPromptFromImage($image);
+        } else {
+            $fullPath = storage_path('app/public/' . $imagePath);
+
+            $generatedPrompt = $this->geminiService->generatedPromptFromImage($fullPath);
+        }
 
         $imageGeneration = $user->imageGenerations()->create([
             'image_path' => $imagePath,

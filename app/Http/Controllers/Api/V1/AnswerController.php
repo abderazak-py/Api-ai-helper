@@ -8,7 +8,6 @@ use App\Http\Resources\AnswerResource;
 use App\Services\GeminiService;
 use App\Services\OpenAiService;
 use Illuminate\Http\Request;
-use Laravel\Boost\Install\CodeEnvironment\Gemini;
 
 class AnswerController extends Controller
 {
@@ -28,8 +27,11 @@ class AnswerController extends Controller
 
         $question = $request->input('question');
 
-        $answer = $this->openAiService->answerQuestion($question);
-        //$answer = $this->geminiService->answerQuestion($question);
+        if ($request->has('type') && $request->type === 'local') {
+            $answer = $this->openAiService->answerQuestion($question);
+        } else {
+            $answer = $this->geminiService->answerQuestion($question);
+        }
 
         $response = $user->answers()->create([
             'question' => $question,

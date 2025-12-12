@@ -3,24 +3,23 @@
 namespace App\Services;
 
 use HosseinHezami\LaravelGemini\Facades\Gemini;
+use Illuminate\Http\UploadedFile;;
+
 
 class GeminiService
 {
-    public function generatedPromptFromImage(UploadedFile $image): string
+    public function generatedPromptFromImage(string $image): string
     {
-        $imageData = base64_encode(file_get_contents($image->getPathname()));
-
-        $mimeType = $image->getClientMimeType();
 
         Gemini::setApiKey(config('services.gemini.key'));
 
         try {
             $response = Gemini::text()
-                ->upload('image', $image->getPathname) // image, video, audio, document
+                ->upload('image', $image) // image, video, audio, document
                 ->prompt('Extract the key points from this document.')
                 ->generate();
 
-            return $response->choices[0]->message->content;
+            return $response->content();
         } catch (\Exception $e) {
             throw new \RuntimeException('error generating prompt from image: ' . $e->getMessage());
         }
@@ -31,10 +30,10 @@ class GeminiService
         Gemini::setApiKey(config('services.gemini.key'));
         try {
             $response = Gemini::text()
-                ->prompt('Hello Gemini!')
+                ->prompt($question)
                 ->generate();
 
-            return $response->content;
+            return $response->content();
         } catch (\Exception $e) {
             throw new \RuntimeException('error answering question: ' . $e->getMessage());
         }

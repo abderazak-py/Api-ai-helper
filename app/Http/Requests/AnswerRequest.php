@@ -22,6 +22,7 @@ class AnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => ['string', 'nullable', 'max:255', 'min:3', 'regex:/^[^<>%$#&*]+$/'],
             'question' => ['required', 'string', 'max:255', 'min:3', 'regex:/^[^<>%$#&*]+$/'],
         ];
     }
@@ -34,6 +35,10 @@ class AnswerRequest extends FormRequest
             'question.max' => 'Question must be less than 255 characters',
             'question.min' => 'Question must be more than 3 characters',
             'question.regex' => 'Question must not contain special characters',
+            'type.string' => 'Type must be a string',
+            'type.max' => 'Type must be less than 255 characters',
+            'type.min' => 'Type must be more than 3 characters',
+            'type.regex' => 'Type must not contain special characters',
         ];
     }
 }

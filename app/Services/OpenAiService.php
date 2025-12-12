@@ -28,7 +28,7 @@ class OpenAiService
                             [
                                 'type' => 'image_url',
                                 'image_url' => [
-                                    'url' => 'data:'.$mimeType.';base64,'.$imageData,
+                                    'url' => 'data:' . $mimeType . ';base64,' . $imageData,
                                 ],
                             ],
                         ],
@@ -39,7 +39,7 @@ class OpenAiService
 
             return $response->choices[0]->message->content;
         } catch (\Exception $e) {
-            throw new \RuntimeException('error generating prompt from image: '.$e->getMessage());
+            throw new \RuntimeException('error generating prompt from image: ' . $e->getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ class OpenAiService
 
             return $response->choices[0]->message->content;
         } catch (\Exception $e) {
-            throw new \RuntimeException('error generating prompt from image: '.$e->getMessage());
+            throw new \RuntimeException('error generating prompt from image: ' . $e->getMessage());
         }
     }
 }
