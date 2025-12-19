@@ -13,10 +13,10 @@ class OpenAiService
 
         $mimeType = $image->getClientMimeType();
 
-        $client = (new Factory)->withApiKey(config('services.openai.key'))->withBaseUri('http://127.0.0.1:1337/v1')->make();
+        $client = (new Factory)->withBaseUri('http://127.0.0.1:1337/v1')->make();
         try {
             $response = $client->chat()->create([
-                'model' => 'OpenGVLab_InternVL3_5-1B-IQ2_M',
+                'model' => 'qwen/qwen3-vl-4b',
                 'messages' => [
                     [
                         'role' => 'user',
@@ -34,6 +34,7 @@ class OpenAiService
                         ],
                     ],
                 ],
+
 
             ]);
 
