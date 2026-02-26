@@ -1,59 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API AI Helper
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API AI Helper is a Laravel-based API that provides AI-powered features for content generation, question answering, and post management. It integrates with both Google's Gemini and OpenAI services to provide flexible AI capabilities.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. Post Management API
+Manage blog posts and articles with a full CRUD API:
+- Create, read, update, and delete posts
+- User authentication to ensure posts belong to the correct user
+- Pagination support for efficient data handling
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. AI-Powered Question Answering
+Intelligent question answering system that supports:
+- Natural language processing for complex questions
+- Integration with both Google Gemini and OpenAI models
+- Automatic saving of question-answer history per user
+- Choice of local or cloud-based processing
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. Image-Based Prompt Generation
+Advanced image analysis and prompt extraction:
+- Upload images to generate descriptive prompts
+- Support for various image formats
+- AI-powered content recognition and description
+- Option to use either Google Gemini or OpenAI models
+- Automatic file handling and storage
 
-## Learning Laravel
+## API Endpoints
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Authentication
+- `GET /api/user` - Retrieve authenticated user information
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Posts
+- `GET /api/v1/posts` - Get paginated list of user's posts
+- `POST /api/v1/posts` - Create a new post
+- `GET /api/v1/posts/{id}` - Get a specific post
+- `PUT /api/v1/posts/{id}` - Update a post
+- `DELETE /api/v1/posts/{id}` - Delete a post
 
-## Laravel Sponsors
+### Question Answering
+- `GET /api/v1/questions` - Get list of user's question-answer pairs
+- `POST /api/v1/questions` - Submit a question and receive an answer
+- Supports both local and cloud-based AI models
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prompt Generation
+- `GET /api/v1/prompt-generations` - Get user's prompt generation history with filtering and sorting options
+- `POST /api/v1/prompt-generations` - Upload an image and generate a descriptive prompt
+- Includes search, sort, and pagination parameters
 
-### Premium Partners
+## Technologies Used
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Laravel 11+
+- Google Gemini API
+- OpenAI API
+- Laravel Sanctum for API authentication
+- Laravel Resource classes for structured API responses
+- Image processing and content extraction
+
+## Setup Instructions
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/api-ai-helper.git
+   cd api-ai-helper
+   ```
+
+2. Install dependencies:
+   ```
+   composer install
+   npm install
+   ```
+
+3. Configure environment:
+   ```
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. Set up your API keys in the `.env` file:
+   ```
+   GEMINI_API_KEY=your_gemini_api_key
+   OPENAI_API_KEY=your_openai_api_key
+   ```
+
+5. Run migrations:
+   ```
+   php artisan migrate
+   ```
+
+6. Start the development server:
+   ```
+   php artisan serve
+   ```
+
+## Authentication
+
+All API requests (except authentication endpoints) require an API token. Obtain your token by registering or logging in via the authentication endpoints at `/api/login` and `/api/register`.
+
+Include your API token in the Authorization header of each request:
+```
+Authorization: Bearer YOUR_API_TOKEN
+```
+
+## Security Features
+
+- Rate limiting to prevent API abuse
+- User isolation - users can only access their own data
+- File upload validation and sanitization
+- Input validation and sanitization
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+We welcome contributions! Please follow these steps:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open source and available under the MIT License.
+
+## Support
+
+If you encounter any issues or have questions, please file an issue on the GitHub repository.
